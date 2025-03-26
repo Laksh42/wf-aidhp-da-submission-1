@@ -125,66 +125,40 @@ class MockDatabase:
             return {"ok": 1}
         return {"ok": 0}
 
-async def connect_to_mongo() -> AsyncIOMotorDatabase:
-    """
-    Create a MongoDB connection pool and connect to the database.
-    Returns the database instance.
-    """
-    global db_client, db, mock_db
-    
-    # If mock data is enabled, use the mock database
-    if settings.ENABLE_MOCK_DATA:
-        logger.info("Mock data enabled: Using in-memory database")
-        mock_db = MockDatabase()
-        return mock_db
-    
+async def connect_to_mongo():
+    """Create database connection."""
+    global db_client
+    global db
     try:
-        # Create client using the MongoDB URL from settings
-        mongodb_url = settings.MONGODB_URL
-        logger.info(f"Connecting to MongoDB at {mongodb_url}")
+        # Check if we should use local or remote MongoDB
+        if settings.USE_LOCAL_DB:
+            logger.info("Using local MongoDB connection")
+            mongodb_url = settings.LOCAL_MONGODB_URL
+            mongodb_db = settings.LOCAL_MONGODB_DB
+        else:
+            logger.info("Using remote MongoDB connection")
+            mongodb_url = settings.MONGODB_URL
+            mongodb_db = settings.MONGODB_DB
+            
+        logger.info(f"Connecting to MongoDB at {mongodb_url}, database: {mongodb_db}")
+        db_client = AsyncIOMotorClient(mongodb_url)
+        db = db_client[mongodb_db]
         
-        # Set a shorter server selection timeout for faster startup
-        db_client = AsyncIOMotorClient(mongodb_url, serverSelectionTimeoutMS=5000)
-        
-        # Get database
-        db = db_client[settings.MONGODB_DB]
-        
-        # Test connection
+        # Verify connection
         await db.command("ping")
-        logger.info("Connected to MongoDB")
-        
-        # List collections to verify database is fully accessible
-        collections = await db.list_collection_names()
-        logger.info(f"Available collections: {', '.join(collections) if collections else 'None'}")
-        
-        if not collections:
-            logger.warning("MongoDB database is empty - no collections found. Data may need to be imported.")
-        
-        # Check specific collections needed for financial data
-        required_collections = ["account_data", "credit_history", "demographic_data", "investment_data", "transaction_data", "products"]
-        missing_collections = [coll for coll in required_collections if coll not in collections]
-        
-        if missing_collections:
-            logger.warning(f"Missing required collections: {', '.join(missing_collections)}")
-            logger.warning("Some financial data may not be available")
+        logger.info("Successfully connected to MongoDB")
         
         return db
     except Exception as e:
         logger.error(f"Failed to connect to MongoDB: {str(e)}")
-        if settings.ENABLE_MOCK_DATA:
-            logger.info("Using mock database instead")
-            mock_db = MockDatabase()
-            return mock_db
-        # Return None instead of raising to allow app to start without DB
-        db = None
-        return None
+        raise
 
 async def close_mongo_connection():
-    """Close MongoDB connection."""
+    """Close database connection."""
     global db_client
     if db_client:
+        logger.info("Closing MongoDB connection")
         db_client.close()
-        logger.info("MongoDB connection closed")
 
 async def get_database():
     """

@@ -12,11 +12,15 @@ from app.config import settings
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-async def initialize_database():
+async def initialize_database(data_dir=None):
     """
     Initialize the MongoDB database with sample data from CSV files.
     This function loads data from CSV files and creates necessary collections.
     It also ensures that user IDs in the data match those in the users collection.
+    
+    Args:
+        data_dir (str, optional): Path to the directory containing data files.
+                                If None, uses the setting from config.
     """
     logger.info("Initializing database with sample data...")
     
@@ -39,7 +43,13 @@ async def initialize_database():
         'products': 'products.csv'
     }
     
-    data_dir = Path(settings.DATA_DIR)
+    # Use provided data_dir or default from settings
+    if data_dir is None:
+        data_dir = Path(settings.DATA_DIR)
+    else:
+        data_dir = Path(data_dir)
+    
+    logger.info(f"Using data directory: {data_dir}")
     total_imported = 0
     
     # Import each CSV file

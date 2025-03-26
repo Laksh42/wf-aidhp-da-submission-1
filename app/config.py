@@ -56,6 +56,9 @@ class Settings(BaseSettings):
     MONGODB_DB: str = "financial_assistant"
     MONGODB_USER: Optional[str] = None
     MONGODB_PASSWORD: Optional[str] = None
+    USE_LOCAL_DB: bool = False
+    LOCAL_MONGODB_URL: str = "mongodb://localhost:27017"
+    LOCAL_MONGODB_DB: str = "financial_advisor"
     
     # Redis settings (optional)
     REDIS_URL: Optional[str] = "redis://localhost:6379"
