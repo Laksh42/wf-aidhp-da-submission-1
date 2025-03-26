@@ -1,5 +1,5 @@
 import logging
-from fastapi import FastAPI, Depends, HTTPException, status, UploadFile, File, Form, BackgroundTasks
+from fastapi import FastAPI, Depends, HTTPException, status, UploadFile, File, Form, BackgroundTasks, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse, FileResponse, JSONResponse
@@ -11,7 +11,6 @@ import io
 import traceback
 import asyncio
 from starlette.middleware.base import BaseHTTPMiddleware
-from starlette.requests import Request
 from starlette.responses import Response
 
 from app.config import settings
@@ -24,6 +23,8 @@ from app.api.chat import router as chat_router
 from app.api.recommendations import router as recommendations_router
 from app.repository.chat_repository import ChatRepository
 from app.utils.import_csv import import_csv_to_collection, csv_to_dict
+from app.api import auth, chat, document, financial, recommendations
+from app.data_initializer import initialize_database, add_synthetic_data
 
 # Set up logging
 logging.basicConfig(
@@ -61,51 +62,27 @@ app.mount("/static", StaticFiles(directory="app/static"), name="static")
 app.include_router(auth_router, prefix="/api/auth", tags=["Authentication"])
 app.include_router(chat_router, prefix="/api/chat", tags=["Chat"])
 app.include_router(recommendations_router, prefix="/api/recommendations", tags=["Recommendations"])
+app.include_router(auth.router)
+app.include_router(chat.router)
+app.include_router(recommendations.router)
+app.include_router(document.router)
+app.include_router(financial.router)
 
 # Database connection events
 @app.on_event("startup")
 async def startup_db_client():
-    db = await connect_to_mongo()
-    
-    # Import CSV data into MongoDB
+    """Initialize database with sample data on startup"""
     try:
-        logger.info("Starting CSV data import...")
+        logger.info("Starting data initialization...")
+        # Initialize the database with CSV data
+        stats = await initialize_database()
+        logger.info(f"Database initialization complete with stats: {stats}")
         
-        # Define CSV files to import
-        csv_files = {
-            "demographic_data": "demographic_data.csv",
-            "account_data": "account_data.csv",
-            "credit_history": "credit_history.csv",
-            "investment_data": "investment_data.csv",
-            "transaction_data": "transaction_data.csv",
-            "products": "products.csv",
-            "social_media_sentiment": "social_media_sentiment.csv"
-        }
-        
-        total_imported = 0
-        for collection, file_name in csv_files.items():
-            count = await import_csv_to_collection(db, collection, file_name)
-            total_imported += count
-        
-        logger.info(f"CSV import complete. Total records imported: {total_imported}")
+        # Add synthetic data for enhanced personalization
+        await add_synthetic_data()
+        logger.info("Synthetic data addition complete")
     except Exception as e:
-        logger.error(f"Error importing CSV data: {e}")
-        logger.error(traceback.format_exc())
-        # Continue startup even if import fails
-        logger.warning("Continuing app startup despite CSV import failure")
-        
-    # Test LLM API key
-    try:
-        from app.services.llm_service import LLMService
-        llm_service = LLMService()
-        is_valid = await llm_service.test_api_key()
-        if is_valid:
-            logger.info(f"Successfully verified {llm_service.provider} API key")
-        else:
-            logger.warning(f"Could not verify {llm_service.provider} API key. Chat responses will use fallback mode.")
-    except Exception as e:
-        logger.error(f"Error testing LLM API key: {e}")
-        logger.error(traceback.format_exc())
+        logger.error(f"Error during startup initialization: {str(e)}")
 
 @app.on_event("shutdown")
 async def shutdown_db_client():
@@ -183,6 +160,13 @@ async def health_check():
     """Health check endpoint."""
     return {"status": "ok"}
 
+@app.exception_handler(Exception)
+async def generic_exception_handler(request: Request, exc: Exception):
+    return JSONResponse(
+        status_code=500,
+        content={"detail": str(exc)},
+    )
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(
@@ -190,4 +174,4 @@ if __name__ == "__main__":
         host="0.0.0.0", 
         port=8000,
         h11_max_incomplete_event_size=32768  # Increase header size limit
-    ) 
+    )

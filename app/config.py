@@ -2,8 +2,10 @@ from typing import Optional, Any, Union, List
 import os
 import re
 from dotenv import load_dotenv
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 from functools import lru_cache
+from pathlib import Path
+from pydantic import Field
 
 # Load environment variables
 load_dotenv()
@@ -51,7 +53,7 @@ class Settings(BaseSettings):
     
     # MongoDB settings
     MONGODB_URL: str = "mongodb://localhost:27017"
-    MONGODB_DB: str = "financial_advisor"
+    MONGODB_DB: str = "financial_assistant"
     MONGODB_USER: Optional[str] = None
     MONGODB_PASSWORD: Optional[str] = None
     
@@ -78,19 +80,19 @@ class Settings(BaseSettings):
     GOOGLE_MODEL: str = "gemini-1.0-pro"
     
     # Security settings
-    SECRET_KEY: str
+    SECRET_KEY: str = "your-secret-key-for-jwt"
     JWT_SECRET: str = "your-jwt-secret-here"
     JWT_ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     
     # CORS settings
     ALLOWED_ORIGINS: str = "http://localhost:3000,http://localhost:8000"
-    CORS_ORIGINS: str = "http://localhost:3000"
+    CORS_ORIGINS: List[str] = ["http://localhost:3000"]
     
     # File paths and limits
     UPLOAD_DIR: str = "uploads"
     TEMP_DIR: str = "temp"
-    DATA_DIR: str = "./data"
+    DATA_DIR: str = str(Path(__file__).parent.parent / "data")
     PRODUCTS_FILE: str = "data/products.csv"
     MAX_UPLOAD_SIZE: int = 10485760
     
@@ -117,9 +119,20 @@ class Settings(BaseSettings):
     # Vector store settings
     VECTOR_STORE_PATH: str = "data/vector_store"
     
-    class Config:
-        env_file = ".env"
-        case_sensitive = True
+    # LLM settings
+    LLM_PROVIDER: str = "openai"
+    LLM_MODEL: str = "gpt-4"
+    LLM_TEMPERATURE: float = 0.7
+    LLM_MAX_TOKENS: int = 1000
+    
+    # Fallback mode (used when API key is not valid)
+    FALLBACK_MODE: bool = False
+    
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+        case_sensitive=True,
+    )
 
 @lru_cache()
 def get_settings() -> Settings:
@@ -130,6 +143,9 @@ settings = get_settings()
 
 # Application settings
 APP_VERSION: str = clean_env_var("APP_VERSION", "0.1.0")
+
+# Ensure the data directory exists
+os.makedirs(settings.DATA_DIR, exist_ok=True)
 
 # MongoDB connection string builder
 @property
@@ -158,10 +174,7 @@ EMBEDDING_MODEL: str = clean_env_var("EMBEDDING_MODEL", "sentence-transformers/a
 OPENAI_VISION_MODEL: str = clean_env_var("OPENAI_VISION_MODEL", "gpt-4-vision-preview")
 
 # LLM Service configurations
-LLM_MODEL: str = clean_env_var("LLM_MODEL", "gpt-3.5-turbo") 
 LLM_API_URL: str = clean_env_var("LLM_API_URL", "https://api.openai.com/v1/chat/completions")
-LLM_MAX_TOKENS: int = get_int_env("LLM_MAX_TOKENS", 1000)
-LLM_TEMPERATURE: float = float(clean_env_var("LLM_TEMPERATURE", "0.7"))
 
 # File storage paths
 UPLOAD_DIR: str = clean_env_var("UPLOAD_DIR", "uploads")
@@ -190,4 +203,4 @@ ENABLE_RECOMMENDATIONS: bool = get_bool_env("ENABLE_RECOMMENDATIONS", True)
 ENABLE_RLHF: bool = get_bool_env("ENABLE_RLHF", False)
 ENABLE_SENTIMENT_ANALYSIS: bool = get_bool_env("ENABLE_SENTIMENT_ANALYSIS", True)
 ENABLE_ADAPTIVE_RECOMMENDATIONS: bool = get_bool_env("ENABLE_ADAPTIVE_RECOMMENDATIONS", True)
-ENABLE_MOCK_DATA: bool = get_bool_env("ENABLE_MOCK_DATA", False) 
+ENABLE_MOCK_DATA: bool = get_bool_env("ENABLE_MOCK_DATA", False)
