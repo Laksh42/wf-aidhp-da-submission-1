@@ -1,0 +1,10 @@
+user_id,age,gender,occupation,annual_income,education_level,city,state,marital_status,dependents
+4,42,Male,Software Engineer,135000,Masters,San Francisco,CA,Married,2
+9,35,Female,Data Scientist,110000,PhD,Boston,MA,Single,0
+10,58,Male,Physician,225000,Doctorate,Chicago,IL,Married,3
+11,29,Female,Marketing Manager,78000,Bachelors,Denver,CO,Single,0
+15,47,Male,Financial Analyst,145000,Masters,New York,NY,Divorced,1
+16,31,Female,Architect,85000,Masters,Seattle,WA,Married,0
+19,62,Male,Retired,65000,Bachelors,Miami,FL,Widowed,0
+32,39,Female,Project Manager,92000,Bachelors,Austin,TX,Married,2
+38,44,Male,Business Owner,180000,Masters,Los Angeles,CA,Married,2 

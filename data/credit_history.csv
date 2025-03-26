@@ -1,0 +1,10 @@
+user_id,credit_score,outstanding_debt,credit_utilization,payment_history,credit_age_years,recent_inquiries,delinquencies,total_accounts
+4,765,125000.00,15,Excellent,12,1,0,8
+9,720,78500.00,22,Good,8,2,0,5
+10,810,320000.00,8,Excellent,25,0,0,12
+11,680,52000.00,35,Good,5,3,1,4
+15,790,230000.00,18,Excellent,15,1,0,10
+16,705,115000.00,28,Good,7,2,0,6
+19,750,35000.00,5,Excellent,30,0,0,5
+32,675,82500.00,42,Fair,10,2,2,7
+38,795,265000.00,12,Excellent,18,1,0,9 
