@@ -1,0 +1,46 @@
+user_id,transaction_id,date,amount,merchant,category,transaction_type
+4,10001,2023-02-15,125.32,Starbucks,Food & Dining,debit
+4,10002,2023-02-18,1850.00,Rent Payment,Housing,debit
+4,10003,2023-02-20,85.47,Amazon,Shopping,debit
+4,10004,2023-02-22,3500.00,Salary Deposit,Income,credit
+4,10005,2023-02-25,65.99,Netflix,Entertainment,debit
+9,10006,2023-02-10,98.25,Whole Foods,Groceries,debit
+9,10007,2023-02-12,45.00,Uber,Transportation,debit
+9,10008,2023-02-15,1500.00,Rent Payment,Housing,debit
+9,10009,2023-02-20,4200.00,Salary Deposit,Income,credit
+9,10010,2023-02-22,120.75,Restaurant,Food & Dining,debit
+10,10011,2023-02-05,2500.00,Mortgage Payment,Housing,debit
+10,10012,2023-02-08,280.50,Electric Bill,Utilities,debit
+10,10013,2023-02-12,185.32,Costco,Groceries,debit
+10,10014,2023-02-15,8500.00,Salary Deposit,Income,credit
+10,10015,2023-02-18,250.00,Charity Donation,Charity,debit
+11,10016,2023-02-02,78.35,Target,Shopping,debit
+11,10017,2023-02-05,1200.00,Rent Payment,Housing,debit
+11,10018,2023-02-10,45.99,Spotify,Entertainment,debit
+11,10019,2023-02-15,3000.00,Salary Deposit,Income,credit
+11,10020,2023-02-18,89.32,Gas Station,Transportation,debit
+15,10021,2023-02-01,2200.00,Mortgage Payment,Housing,debit
+15,10022,2023-02-05,156.78,Water Bill,Utilities,debit
+15,10023,2023-02-10,200.00,Investment Deposit,Investments,debit
+15,10024,2023-02-15,5500.00,Salary Deposit,Income,credit
+15,10025,2023-02-20,112.34,Restaurant,Food & Dining,debit
+16,10026,2023-02-03,1600.00,Rent Payment,Housing,debit
+16,10027,2023-02-08,98.76,Grocery Store,Groceries,debit
+16,10028,2023-02-12,45.00,Uber,Transportation,debit
+16,10029,2023-02-15,3250.00,Salary Deposit,Income,credit
+16,10030,2023-02-18,55.99,Movie Tickets,Entertainment,debit
+19,10031,2023-02-01,1800.00,Retirement Home,Housing,debit
+19,10032,2023-02-05,145.32,Medical Bill,Healthcare,debit
+19,10033,2023-02-10,78.56,Pharmacy,Healthcare,debit
+19,10034,2023-02-15,2500.00,Pension Deposit,Income,credit
+19,10035,2023-02-20,35.00,Restaurant,Food & Dining,debit
+32,10036,2023-02-02,1500.00,Rent Payment,Housing,debit
+32,10037,2023-02-07,112.45,Grocery Store,Groceries,debit
+32,10038,2023-02-10,85.32,Gas Station,Transportation,debit
+32,10039,2023-02-15,3500.00,Salary Deposit,Income,credit
+32,10040,2023-02-18,150.00,Childcare,Family,debit
+38,10041,2023-02-01,3500.00,Mortgage Payment,Housing,debit
+38,10042,2023-02-05,325.78,Electric Bill,Utilities,debit
+38,10043,2023-02-10,500.00,Business Expense,Business,debit
+38,10044,2023-02-15,7500.00,Business Income,Income,credit
+38,10045,2023-02-20,230.45,Restaurant,Food & Dining,debit 

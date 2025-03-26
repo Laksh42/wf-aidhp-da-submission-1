@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backend Static Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #D41B2C;
+        }
+        .buttons {
+            margin-top: 20px;
+        }
+        button {
+            background-color: #D41B2C;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin-right: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #b31825;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Backend Static Test</h1>
+        <p>This is a static HTML file served by the FastAPI backend.</p>
+        
+        <div class="buttons">
+            <button id="testHealth">Test Health Endpoint</button>
+            <button id="testLogin">Test Login Endpoint</button>
+        </div>
+        
+        <h2>Response:</h2>
+        <pre id="response">Click a button to test an endpoint</pre>
+    </div>
+
+    <script>
+        document.getElementById('testHealth').addEventListener('click', async () => {
+            try {
+                const response = await fetch('/api/health');
+                const data = await response.json();
+                document.getElementById('response').textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                document.getElementById('response').textContent = `Error: ${error.message}`;
+            }
+        });
+        
+        document.getElementById('testLogin').addEventListener('click', async () => {
+            try {
+                const formData = new FormData();
+                formData.append('username', 'testuser');
+                formData.append('password', 'password123');
+                
+                const response = await fetch('/api/auth/token', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        // Minimal headers to avoid 431 error
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById('response').textContent = JSON.stringify(data, null, 2);
+                } else {
+                    document.getElementById('response').textContent = `Error: ${response.status} ${response.statusText}`;
+                }
+            } catch (error) {
+                document.getElementById('response').textContent = `Error: ${error.message}`;
+            }
+        });
+    </script>
+</body>
+</html> 

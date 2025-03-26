@@ -1,0 +1,28 @@
+user_id,date,platform,post_text,sentiment,topics,engagement_score
+4,2023-02-01,Twitter,Excited about my new tech investments this year!,positive,investment technology finance,85
+4,2023-02-10,Facebook,Anyone have advice on refinancing home loans? Looking at options.,neutral,mortgage refinance housing,72
+4,2023-02-20,LinkedIn,Just attended an amazing workshop on retirement planning. Never too early to start!,positive,retirement planning finance education,93
+9,2023-02-05,Twitter,Concerned about market volatility. Might need to rebalance portfolio.,negative,market volatility investment,68
+9,2023-02-12,Instagram,Celebrating paying off my student loans today! #DebtFree,positive,debt education finance celebration,96
+9,2023-02-18,Facebook,Anyone else finding it hard to save with inflation these days?,negative,inflation saving economy,82
+10,2023-02-03,LinkedIn,Proud to announce opening my medical practice's second location. Expansion is daunting but exciting!,positive,business expansion healthcare entrepreneurship,88
+10,2023-02-15,Twitter,Tax season is approaching. Looking for a new accountant recommendations.,neutral,taxes finance accounting,65
+10,2023-02-22,Facebook,College tuition is insane these days. Setting up 529 plans for the kids.,negative,education tuition savings collegeplan,79
+11,2023-02-07,Instagram,My first investment in crypto! Hope this works out.,neutral,cryptocurrency investment risk,87
+11,2023-02-14,Twitter,Anyone have suggestions for budgeting apps? Trying to get better at saving.,neutral,budgeting saving apps,74
+11,2023-02-21,Facebook,Job hunting is stressful. Hope something comes through soon.,negative,career job employment,82
+15,2023-02-04,LinkedIn,Shared my analysis on tech sector trends. Check out my latest article!,positive,technology finance analysis investment,91
+15,2023-02-11,Twitter,Market correction happening. Stay calm and stick to your strategy.,neutral,market finance investment strategy,84
+15,2023-02-25,Facebook,Thinking about diversifying into international markets. Thoughts?,neutral,investment international diversification,76
+16,2023-02-02,Instagram,Celebrating a big design project win! Financial independence here I come.,positive,career success finance goals,93
+16,2023-02-13,Twitter,Anyone else struggling with housing costs in Seattle? Considering moving.,negative,housing realestate cost living,85
+16,2023-02-23,Facebook,Just started using a new budgeting app and it's changed everything!,positive,budgeting finance apps,78
+19,2023-02-06,Facebook,Healthcare costs in retirement are higher than I expected.,negative,healthcare retirement costs,72
+19,2023-02-16,Twitter,Enjoying my retirement years. Best financial decision was saving early.,positive,retirement savings planning,81
+19,2023-02-24,LinkedIn,Looking for volunteer opportunities in financial literacy education.,positive,volunteering finance education retirement,77
+32,2023-02-08,Facebook,Childcare costs are eating up our budget. Any suggestions for saving?,negative,childcare budget parenting finance,83
+32,2023-02-17,Twitter,Just got promoted! Excited about the salary bump and new opportunities.,positive,career income promotion,92
+32,2023-02-26,Instagram,House hunting is stressful in this market. Everything is so expensive!,negative,housing realestate market,75
+38,2023-02-09,LinkedIn,Excited to announce new funding for my business venture! Growth phase begins.,positive,business entrepreneurship funding,95
+38,2023-02-19,Twitter,Tax write-offs for small business owners are a lifesaver.,positive,taxes business finance,79
+38,2023-02-27,Facebook,Work-life balance is tough as a business owner. Any other entrepreneurs feeling this?,neutral,business entrepreneurship wellbeing,86 
